@@ -10,7 +10,9 @@ vcpkg_from_github(
 
 vcpkg_apply_patches(
     SOURCE_PATH ${SOURCE_PATH}
-    PATCHES ${CMAKE_CURRENT_LIST_DIR}/only-install-one-flavor.patch
+    PATCHES
+        ${CMAKE_CURRENT_LIST_DIR}/only-install-one-flavor.patch
+        ${CMAKE_CURRENT_LIST_DIR}/use-vcpkg-glib.patch
 )
 
 vcpkg_configure_cmake(
@@ -26,10 +28,12 @@ vcpkg_configure_cmake(
 )
 
 vcpkg_install_cmake()
-vcpkg_fixup_cmake_targets(CONFIG_PATH cmake)
+vcpkg_fixup_cmake_targets(CONFIG_PATH lib/lcm/cmake)
 
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/lib/lcm)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/lib/lcm)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/share/aclocal)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/share/java)
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/share/man)

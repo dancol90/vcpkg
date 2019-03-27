@@ -1,0 +1,17 @@
+diff a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,7 +7,12 @@
+   list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/3.7")
+ endif()
+ 
+-find_package(GLib2 REQUIRED)
++find_package(Threads REQUIRED)
++find_package(unofficial-iconv REQUIRED)
++find_package(unofficial-glib REQUIRED)
++
++set_property(TARGET unofficial::glib::glib PROPERTY IMPORTED_GLOBAL TRUE)
++add_library(GLib2::glib ALIAS unofficial::glib::glib)
+ 
+ # Configuration and utility functions
+ include(lcm-cmake/config.cmake NO_POLICY_SCOPE)
