@@ -124,5 +124,20 @@ if(VCPKG_LIBRARY_LINKAGE STREQUAL "dynamic")
     file(WRITE ${CURRENT_PACKAGES_DIR}/include/google/protobuf/stubs/platform_macros.h "${_contents}")
 endif()
 
+# Copy well-known types to the tools/protobuf folder
+# Get a list of proto files in the format "include/google/protobuf/*/*.proto"
+file(GLOB_RECURSE
+    PROTOS
+    RELATIVE "${CURRENT_PACKAGES_DIR}"
+    "${CURRENT_PACKAGES_DIR}/include/*.proto"
+)
+
+foreach(E IN LISTS PROTOS)
+    # Get the sub path of the file (like include/google/protobuf/)
+    get_filename_component(SUB_PATH ${E} DIRECTORY)
+    # Copy the proto file the right subdir inside tools/protobuf
+    file(INSTALL ${CURRENT_PACKAGES_DIR}/${E} DESTINATION ${CURRENT_PACKAGES_DIR}/tools/protobuf/${SUB_PATH})
+endforeach()
+
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/protobuf RENAME copyright)
 vcpkg_copy_pdbs()
