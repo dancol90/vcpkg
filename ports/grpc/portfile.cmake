@@ -64,14 +64,14 @@ vcpkg_fixup_cmake_targets(CONFIG_PATH "share/grpc")
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/grpc RENAME copyright)
 
 # Install tools
-file(GLOB TOOLS "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/*.exe")
+file(GLOB TOOLS "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/grpc_*_plugin*")
 if(TOOLS)
     file(MAKE_DIRECTORY ${CURRENT_PACKAGES_DIR}/tools/grpc)
     file(COPY ${TOOLS} DESTINATION ${CURRENT_PACKAGES_DIR}/tools/grpc)
     vcpkg_copy_tool_dependencies(${CURRENT_PACKAGES_DIR}/tools/grpc)
 endif()
 
-file(GLOB EXES "${CURRENT_PACKAGES_DIR}/bin/*.exe" "${CURRENT_PACKAGES_DIR}/debug/bin/*.exe")
+file(GLOB EXES "${CURRENT_PACKAGES_DIR}/bin/grpc_*_plugin*" "${CURRENT_PACKAGES_DIR}/debug/bin/grpc_*_plugin*")
 if(EXES)
     file(REMOVE ${EXES})
 endif()
