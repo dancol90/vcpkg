@@ -159,9 +159,15 @@ file(REMOVE ${BINARY_TOOLS})
 file(GLOB BINARY_TOOLS "${CURRENT_PACKAGES_DIR}/debug/bin/*")
 list(FILTER BINARY_TOOLS EXCLUDE REGEX "\\.dll\$")
 file(REMOVE ${BINARY_TOOLS})
-if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
-    file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/bin" "${CURRENT_PACKAGES_DIR}/debug/bin")
-endif()
+
+foreach(BIN_DIR "bin" "debug/bin")
+    file(GLOB BINARY_FILES "${CURRENT_PACKAGES_DIR}/${BIN_DIR}/*")
+    list(LENGTH BINARY_FILES FILE_COUNT)
+
+    if(FILE_COUNT EQUAL 0)
+        file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/${BIN_DIR}")
+    endif()
+endforeach()
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/qt_debug.conf ${CMAKE_CURRENT_LIST_DIR}/qt_release.conf DESTINATION ${CURRENT_PACKAGES_DIR}/tools/qt5)
 
